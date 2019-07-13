@@ -43,7 +43,13 @@ class JsonParserTest < Minitest::Test
       "suspended" => true,
       "role"=> "admin"
     }
-    result = @instance.call(file_path: @user_json_file_path)[0]
-    assert_equal(expected, result)
+    # Ensure records converted to hash properly
+    result = @instance.call(file_path: @user_json_file_path)
+    assert_equal(expected, result[0])
+
+    # Ensure all records are there
+    expected_records_length = 75
+    result_records_length = result.count
+    assert_equal(expected_records_length, result_records_length)
   end
 end

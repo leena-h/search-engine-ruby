@@ -6,7 +6,7 @@ class JsonParser
     end
     # Read file path
     file = File.read(file_path)
-    # Return parsed file into JSON format
+    # Return parse file in JSON format
     JSON.parse(file)
   rescue JSON::ParserError
     # Throw error if unable to parse JSON
