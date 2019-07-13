@@ -11,3 +11,6 @@ gem 'minitest-reporters'
 # Open debugging console with `binding.pry`
 gem 'pry'
 gem 'pry-coolline'
+
+# Read and parse JSON
+gem 'json'
