@@ -1,5 +1,5 @@
-require 'indice'
-require 'json_parser'
+require_relative 'indice'
+require_relative 'json_parser'
 
 class SearchEngine
   def initialize(parser: JsonParser.new)
