@@ -43,7 +43,7 @@ class JsonParserTest < Minitest::Test
       "suspended" => true,
       "role"=> "admin"
     }
-    # Ensure records converted to hash properly
+    # Ensure records converted to hash properly - We check the first record only here.
     result = @instance.call(file_path: @user_json_file_path)
     assert_equal(expected, result[0])
 

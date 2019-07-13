@@ -12,6 +12,6 @@ class Indice
   end
 
   def search(term:, value:)
-    @data.select { |d| d[term] == value }
+    @data.select { |d| d[term] == value } || []
   end
 end
