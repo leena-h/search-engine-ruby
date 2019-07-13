@@ -1,22 +1,15 @@
+require 'json'
+
 class Indice
-  attr_reader :file_path
+  attr_reader :data
 
-  def initialize(file_path:)
-    unless File.file?(file_path)
-      raise ArgumentError.new("File path does not exist: #{file_path}")
-    end
-
-    @file_path = file_path
+  def initialize(data:)
+   @data = data
   end
 
   def query
   end
 
   def searchable_fields
-  end
-
-  private
-
-  def parse_json
   end
 end
