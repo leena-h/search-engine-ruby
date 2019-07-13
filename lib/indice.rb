@@ -7,10 +7,11 @@ class Indice
     @data = data
   end
 
-  def searchable_attributes
+  def searchable_fields
     @data.map { |d| d.keys }.flatten.uniq
   end
 
-  def query
+  def search(term:, value:)
+    @data.select { |d| d[term] == value }
   end
 end
