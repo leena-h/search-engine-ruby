@@ -4,12 +4,13 @@ class Indice
   attr_reader :data
 
   def initialize(data:)
-   @data = data
+    @data = data
+  end
+
+  def searchable_attributes
+    @data.map { |d| d.keys }.flatten.uniq
   end
 
   def query
-  end
-
-  def searchable_fields
   end
 end
