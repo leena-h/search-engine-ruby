@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class IndiceTest < Minitest::Test
+  include IndiceHelper
+
   def setup
     # Initialise JSON Parser
     json_parser = JsonParser.new
@@ -13,27 +15,7 @@ class IndiceTest < Minitest::Test
   end
 
   def test_indice_gets_searchable_fields_correctly
-    expected = [
-      "_id",
-      "url",
-      "external_id",
-      "name",
-      "alias",
-      "created_at",
-      "active",
-      "verified",
-      "shared",
-      "locale",
-      "timezone",
-      "last_login_at",
-      "email",
-      "phone",
-      "signature",
-      "organization_id",
-      "tags",
-      "suspended",
-      "role"
-    ]
+    expected = get_user_searchable_fields()
     result = @users_indice.searchable_fields()
     assert_equal(expected, result)
   end

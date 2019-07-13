@@ -8,7 +8,7 @@ class Indice
   end
 
   def searchable_fields
-    @data.map { |d| d.keys }.flatten.uniq
+    @data.map { |d| d.keys }.flatten.uniq.sort
   end
 
   def search(term:, value:)
