@@ -9,15 +9,7 @@ class Cli
   def run
     option = 0
     while option != 3
-      puts """
-      Welcome to Zendesk Search
-      Type 'quit' to exit at any time, Press 'Enter' to continue
-
-        Select search options:
-        * Press 1 to search Zendesk
-        * Press 2 to view a list of searchable fields
-        * Press 3 to exit
-      """
+      welcome_prompt
       prompt
       option = gets.chomp.to_i
       breakline
@@ -38,18 +30,7 @@ class Cli
         )
         breakline
       when 2
-        puts "--------------------------------------------------"
-        puts "Search Users with"
-        puts @search_engine.view_searchable_fields(:users)
-        breakline
-        puts "--------------------------------------------------"
-        puts "Search Tickets with"
-        puts @search_engine.view_searchable_fields(:tickets)
-        breakline
-        puts "--------------------------------------------------"
-        puts "Search Organizations with"
-        puts @search_engine.view_searchable_fields(:organizations)
-        breakline
+        searchable_fields_prompt
       when 3
       else
         puts 'Invalid option. Try again.'
@@ -67,6 +48,33 @@ class Cli
 
   def breakline
     puts "\n"
+  end
+
+  def welcome_prompt
+    puts """
+      Welcome to Zendesk Search
+      Type 'quit' to exit at any time, Press 'Enter' to continue
+
+        Select search options:
+        * Press 1 to search Zendesk
+        * Press 2 to view a list of searchable fields
+        * Press 3 to exit
+    """
+  end
+
+  def searchable_fields_prompt
+    puts "--------------------------------------------------"
+    puts "Search Users with"
+    puts @search_engine.view_searchable_fields(:users)
+    breakline
+    puts "--------------------------------------------------"
+    puts "Search Tickets with"
+    puts @search_engine.view_searchable_fields(:tickets)
+    breakline
+    puts "--------------------------------------------------"
+    puts "Search Organizations with"
+    puts @search_engine.view_searchable_fields(:organizations)
+    breakline
   end
 
   def indice_number_mapping(number = 0)
