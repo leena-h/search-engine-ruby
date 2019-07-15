@@ -24,12 +24,7 @@ class Cli
         term = gets.chomp
         puts "Enter search value"
         value = gets.chomp
-        formatted_value =
-          if term == '_id' && indice_type != :tickets
-            value.to_i
-          else
-            value
-          end
+        formatted_value = convert_id_to_integer_unless_for_tickets(term, indice_type, value)
         result = @search_engine.perform_search(
           indice_type: indice_type,
           term: term,
@@ -93,6 +88,14 @@ class Cli
       :tickets
     when 3
       :organizations
+    end
+  end
+
+  def convert_id_to_integer_unless_for_tickets(term, indice_type, value)
+    if term == '_id' && indice_type != :tickets
+      value.to_i
+    else
+      value
     end
   end
 end
