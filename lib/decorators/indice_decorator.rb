@@ -4,6 +4,8 @@ class IndiceDecorator
   end
 
   def to_pretty_string()
+    return "No results found." if @obj.empty?
+
     result = ""
     @obj.each do |hash|
       result += formatted_values(hash)
