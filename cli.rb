@@ -1,5 +1,6 @@
 require 'pry'
 require_relative './lib/search_engine'
+require_relative './lib/decorators/indice_decorator'
 
 class Cli
   def initialize
@@ -23,11 +24,18 @@ class Cli
         term = gets.chomp
         puts "Enter search value"
         value = gets.chomp
-        puts @search_engine.perform_search(
+        formatted_value =
+          if term == '_id' && indice_type != :tickets
+            value.to_i
+          else
+            value
+          end
+        result = @search_engine.perform_search(
           indice_type: indice_type,
           term: term,
-          value: value
+          value: formatted_value
         )
+        puts IndiceDecorator.new(result).to_pretty_string()
         breakline
       when 2
         searchable_fields_prompt
