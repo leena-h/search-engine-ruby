@@ -14,7 +14,6 @@ class Indice
 
   # Performs search on given term and value
   def search(term:, value:)
-    formatted_value = term == '_id' ? value.to_i : value
-    @data.select { |d| d[term] == formatted_value } || []
+    @data.select { |d| d[term] == value } || []
   end
 end
