@@ -2,6 +2,7 @@ require_relative 'indice'
 require_relative 'json_parser'
 
 class SearchEngine
+  # Initialise dataset - Organisations, tickets and users
   def initialize(parser: JsonParser.new)
     @organizations_indice =
       Indice.new(data: parser.call(file_path: 'bin/organizations.json'))
@@ -49,8 +50,11 @@ class SearchEngine
     results = @organizations_indice.search(term: term, value: value)
     if perform_search_by_id?(term)
       results.each do |organization|
-        organization['tickets'] = @tickets_indice.search(term: 'organization_id', value: value)
-        organization['users'] = @users_indice.search(term: 'organization_id', value: value)
+        organization[:related_records] = {}
+        organization[:related_records]['tickets'] =
+          @tickets_indice.search(term: 'organization_id', value: value)
+        organization[:related_records]['users'] =
+          @users_indice.search(term: 'organization_id', value: value)
       end
     end
     results
@@ -63,9 +67,13 @@ class SearchEngine
       results.each do |ticket|
         # TODO: Remove it deeper into the record, incase it clashes
         # Refactor - Users indice has to go through loop twice
-        ticket['organizations'] = @organizations_indice.search(term: '_id', value: ticket['organization_id'])
-        ticket['submitters'] = @users_indice.search(term: '_id', value: ticket['submitter_id'])
-        ticket['assignees'] = @users_indice.search(term: '_id', value: ticket['assignee_id'])
+        ticket[:related_records] = {}
+        ticket[:related_records]['organizations'] =
+          @organizations_indice.search(term: '_id', value: ticket['organization_id'])
+        ticket[:related_records]['submitters'] =
+          @users_indice.search(term: '_id', value: ticket['submitter_id'])
+        ticket[:related_records]['assignees'] =
+          @users_indice.search(term: '_id', value: ticket['assignee_id'])
       end
     end
     results
@@ -76,11 +84,15 @@ class SearchEngine
     results = @users_indice.search(term: term, value: value)
     if perform_search_by_id?(term)
       results.each do |user|
+        user[:related_records] = {}
         # TODO: Remove it deeper into the record, incase it clashes
-        user['organizations'] = @organizations_indice.search(term: '_id', value: user['organization_id'])
+        user[:related_records]['organizations'] =
+          @organizations_indice.search(term: '_id', value: user['organization_id'])
         # Refactor - Tickets indice has to go through loop twice
-        user['submitted_tickets'] = @tickets_indice.search(term: 'submitter_id', value: value)
-        user['assigned_tickets'] = @tickets_indice.search(term: 'assignee_id', value: value)
+        user[:related_records]['submitted_tickets'] =
+          @tickets_indice.search(term: 'submitter_id', value: value)
+        user[:related_records]['assigned_tickets'] =
+          @tickets_indice.search(term: 'assignee_id', value: value)
       end
     end
     results
