@@ -33,7 +33,9 @@ class SearchEngineTest < Minitest::Test
     user_result = result[0]
     assert result.length == 1 # There is only 1 record
     assert_equal(expected, user_result) # User record is there
-    refute result_keys.include?(:related_records) # Does not include related records
+    refute result_keys.include?('organizations') # Does not include organizations
+    refute result_keys.include?('submitted_tickets') # Does not include submitted tickets
+    refute result_keys.include?('assigned_tickets') # Does not include assigned tickets
   end
 
   def test_searching_with_id_should_return_record_and_related_records
@@ -44,15 +46,16 @@ class SearchEngineTest < Minitest::Test
 
     # Format results to have array of ids to easily compare objects
     result.each do |user|
-      related_records = user[:related_records]
-      related_records['assigned_ticket_ids'] = related_records['assigned_tickets'].map { |at| at['_id'] }
-      related_records['submitted_ticket_ids'] = related_records['submitted_tickets'].map { |st| st['_id'] }
-      related_records['organization_ids'] = related_records['organizations'].map { |st| st['_id'] }
+      user['assigned_ticket_ids'] = user['assigned_tickets'].map { |at| at['_id'] }
+      user['submitted_ticket_ids'] = user['submitted_tickets'].map { |st| st['_id'] }
+      user['organization_ids'] = user['organizations'].map { |st| st['_id'] }
     end
 
     user_result = result[0]
     assert result.length == 1 # There is only 1 record
-    assert result_keys.include?(:related_records) # Does include related records
+    assert result_keys.include?('organizations') # Does include organizations
+    assert result_keys.include?('submitted_tickets') # Does include submitted tickets
+    assert result_keys.include?('assigned_tickets') # Does include assigned tickets
     assert_equal(expected['_id'], user_result['_id']) # User id is 1
     assert_equal(expected['assigned_ticket_ids'], user_result['assigned_ticket_ids'])
     assert_equal(expected['submitted_ticket_ids'], user_result['submitted_ticket_ids'])
@@ -116,17 +119,15 @@ class SearchEngineTest < Minitest::Test
       ],
       "suspended" => true,
       "role" => "admin",
-      :related_records => {
-        "organization_ids"=> [119],
-        "submitted_ticket_ids"=> [
-          "fc5a8a70-3814-4b17-a6e9-583936fca909",
-          "cb304286-7064-4509-813e-edc36d57623d",
-        ],
-        "assigned_ticket_ids"=> [
-          "1fafaa2a-a1e9-4158-aeb4-f17e64615300",
-          "13aafde0-81db-47fd-b1a2-94b0015803df"
-        ]
-      }
+      "organization_ids"=> [119],
+      "submitted_ticket_ids"=> [
+        "fc5a8a70-3814-4b17-a6e9-583936fca909",
+        "cb304286-7064-4509-813e-edc36d57623d",
+      ],
+      "assigned_ticket_ids"=> [
+        "1fafaa2a-a1e9-4158-aeb4-f17e64615300",
+        "13aafde0-81db-47fd-b1a2-94b0015803df"
+      ]
     }
   end
 end
