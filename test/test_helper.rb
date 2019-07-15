@@ -3,6 +3,7 @@ require 'minitest/autorun'
 require 'pry'
 
 Dir[Dir.pwd + "/lib/*.rb"].each {|file| require file }
+require_relative '../lib/decorators/indice_decorator'
 
 Minitest::Reporters.use!(Minitest::Reporters::DefaultReporter.new)
 
