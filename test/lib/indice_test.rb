@@ -8,8 +8,6 @@ class IndiceTest < Minitest::Test
     json_parser = JsonParser.new
     # Setup user sample data
     @users_data = json_parser.call(file_path: 'bin/users.json')
-    # Setup ticket sample data
-    @tickets_data = json_parser.call(file_path: 'bin/tickets.json')
     # Initialise indice for users
     @users_indice = Indice.new(data: @users_data)
   end
