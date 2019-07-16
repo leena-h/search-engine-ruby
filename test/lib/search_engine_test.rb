@@ -28,7 +28,7 @@ class SearchEngineTest < Minitest::Test
     # Searching for user by name of 'Francisca Rasmussen' and should only return the record only
     expected = user_without_related_records()
     result = @instance.perform_search(indice_type: 'users', term: 'name', value: 'Francisca Rasmussen')
-    result_keys = result.map {|hit| hit.keys}.flatten.uniq
+    result_keys = result.map { |r| r.keys }.flatten.uniq
 
     user_result = result[0]
     assert result.length == 1 # There is only 1 record
@@ -42,13 +42,13 @@ class SearchEngineTest < Minitest::Test
     # Search by User ID should return related tickets and organization
     expected = user_with_related_records()
     result = @instance.perform_search(indice_type: 'users', term: '_id', value: 1)
-    result_keys = result.map {|hit| hit.keys}.flatten.uniq
+    result_keys = result.map { |r| r.keys }.flatten.uniq
 
     # Format results to have array of ids to easily compare objects
     result.each do |user|
-      user['assigned_ticket_ids'] = user['assigned_tickets'].map { |at| at['_id'] }
-      user['submitted_ticket_ids'] = user['submitted_tickets'].map { |st| st['_id'] }
-      user['organization_ids'] = user['organizations'].map { |st| st['_id'] }
+      user['assigned_ticket_ids'] = user['assigned_tickets'].map { |u| u['_id'] }
+      user['submitted_ticket_ids'] = user['submitted_tickets'].map { |u| u['_id'] }
+      user['organization_ids'] = user['organizations'].map { |u| u['_id'] }
     end
 
     user_result = result[0]

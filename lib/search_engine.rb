@@ -49,8 +49,13 @@ class SearchEngine
     results = @organizations_indice.search(term: term, value: value)
     if perform_search_by_id?(term)
       results.each do |organization|
-        organization['tickets'] = @tickets_indice.search(term: 'organization_id', value: value)
-        organization['users'] = @users_indice.search(term: 'organization_id', value: value)
+        # Get related tickets
+        organization['tickets'] =
+          @tickets_indice.search(term: 'organization_id', value: organization['_id'])
+
+        # Get related users
+        organization['users'] =
+          @users_indice.search(term: 'organization_id', value: organization['_id'])
       end
     end
     results
@@ -61,11 +66,17 @@ class SearchEngine
     results = @tickets_indice.search(term: term, value: value)
     if perform_search_by_id?(term)
       results.each do |ticket|
-        # TODO: Remove it deeper into the record, incase it clashes
-        # Refactor - Users indice has to go through loop twice
-        ticket['organizations'] = @organizations_indice.search(term: '_id', value: ticket['organization_id'])
-        ticket['submitters'] = @users_indice.search(term: '_id', value: ticket['submitter_id'])
-        ticket['assignees'] = @users_indice.search(term: '_id', value: ticket['assignee_id'])
+        # Get related organizations
+        ticket['organizations'] =
+          @organizations_indice.search_by_primary_key(value: ticket['organization_id'])
+
+        # Get related users who are submitters
+        ticket['submitters'] =
+          @users_indice.search_by_primary_key(value: ticket['submitter_id'])
+
+        # Get related users who are assignees
+        ticket['assignees'] =
+          @users_indice.search_by_primary_key(value: ticket['assignee_id'])
       end
     end
     results
@@ -76,11 +87,17 @@ class SearchEngine
     results = @users_indice.search(term: term, value: value)
     if perform_search_by_id?(term)
       results.each do |user|
-        # TODO: Remove it deeper into the record, incase it clashes
-        user['organizations'] = @organizations_indice.search(term: '_id', value: user['organization_id'])
-        # Refactor - Tickets indice has to go through loop twice
-        user['submitted_tickets'] = @tickets_indice.search(term: 'submitter_id', value: value)
-        user['assigned_tickets'] = @tickets_indice.search(term: 'assignee_id', value: value)
+        # Get related organizations
+        user['organizations'] =
+          @organizations_indice.search_by_primary_key(value: user['organization_id'])
+
+        # Get submitted tickets related to user
+        user['submitted_tickets'] =
+          @tickets_indice.search(term: 'submitter_id', value: user['_id'])
+
+        # Get assigned tickets related to user
+        user['assigned_tickets'] =
+          @tickets_indice.search(term: 'assignee_id', value: user['_id'])
       end
     end
     results

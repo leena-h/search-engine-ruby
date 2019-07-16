@@ -18,7 +18,7 @@ class JsonParserTest < Minitest::Test
     # Success on existent file path
     existent_file_path = @user_json_file_path
     result = @instance.call(file_path: existent_file_path)
-    assert result.class == Array
+    assert result.class == Hash
   end
 
   def test_json_file_converts_to_hash
@@ -45,7 +45,7 @@ class JsonParserTest < Minitest::Test
     }
     # Ensure records converted to hash properly - We check the first record only here.
     result = @instance.call(file_path: @user_json_file_path)
-    assert_equal(expected, result[0])
+    assert_equal(expected, result[1])
 
     # Ensure all records are there
     expected_records_length = 75
