@@ -17,6 +17,7 @@ class Indice
     @data.select { |k, v| v[term] == value }.values || []
   end
 
+  # Get record from hash primary key
   def search_by_primary_key(value:)
     [@data[value]] || []
   end
