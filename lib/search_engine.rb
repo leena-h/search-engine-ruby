@@ -24,7 +24,6 @@ class SearchEngine
     end
   end
 
-  # TODO: Show related fields
   def view_searchable_fields(indice_type)
     case indice_type.to_sym
     when :organizations

@@ -1,6 +1,6 @@
 # Zendesk Coding Challenge
 
-## Overview
+## OVERVIEW
 
 Using the provided data (tickets.json and users.json and organization.json) write a simple
 command line application to search the data and return the results in a human readable format.
@@ -27,3 +27,39 @@ We will look at your project and assess it for:
 - Use the language in which you are strongest.
 - Include a README with (accurate) usage instructions.
 - Document the assumptions and tradeoffs you’ve made.
+
+## Thoughts / Design Process
+As this is production code, I've written TDD tests prior to implementation.
+
+Service design pattern is utilised to seperate each section of business logic into different classes.
+The benefit of doing so allows us to test each layer effectively.
+
+### Search Engine
+This class is used to determine which indice to query for records or view searchable fields.
+It will contain access to 3 datasets or indices:
+- Organizations (Read from JSON using JsonParser class)
+- Tickets (Read from JSON using JsonParser class)
+- Users (Read from JSON using JsonParser class)
+
+### Indice
+This class is a dataset representation for Organizations/Tickets/Users.
+It contains functions to do the following:
+- View searchable fields
+- Search by term and value (Iterates through each record to find a match)
+- Search by primary key (Get record from mapping by id) - O(1) Algorithm
+
+### Indice Decorator
+This class is used to make the results from Search Engine human readable.
+
+### CLI
+This class is used for user input and interactions.
+
+## How to start
+Ruby version required: `2.6.0`
+
+Install gems
+I've only included Gems for MiniTest and pry for debugging purposes.
+`bundle install`
+
+To run the CLI, run the following command in the terminal:
+`ruby cli.rb`
