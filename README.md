@@ -1,4 +1,4 @@
-# Zendesk Coding Challenge
+# Search Engine with Tickets, Users & Organizations
 
 ## OVERVIEW
 
@@ -12,27 +12,6 @@ command line application to search the data and return the results in a human re
 
 Search can get pretty complicated pretty easily, we just want to see that you can code a basic but efficient search application. Ideally, search response times should not increase linearly as the number of documents grows. You can assume all data can fit into memory on a single
 machine.
-
-## EVALUATION CRITERIA
-
-We will look at your project and assess it for:
-1. Extensibility - separation of concerns.
-2. Simplicity - aim for the simplest solution that gets the job done whilst remaining readable, extensible and testable.
-3. Test Coverage - breaking changes should break your tests.
-4. Performance - should gracefully handle a significant increase in amount of data provided (e.g 10000+ users).
-5. Robustness - should handle and report errors.If you have any questions about this criteria please ask.
-
-### SPECIFICATIONS
-
-- Use the language in which you are strongest.
-- Include a README with (accurate) usage instructions.
-- Document the assumptions and tradeoffs you’ve made.
-
-## Thoughts / Design Process
-As this is production code, I've written TDD tests prior to implementation.
-
-Service design pattern is utilised to seperate each section of business logic into different classes.
-The benefit of doing so allows us to test each layer effectively.
 
 ### Search Engine
 This class is used to determine which indice to query for records or view searchable fields.
