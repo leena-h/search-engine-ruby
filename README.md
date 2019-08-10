@@ -1,4 +1,4 @@
-# Search Engine with Tickets, Users & Organizations
+# Search Engine
 
 ## OVERVIEW
 
