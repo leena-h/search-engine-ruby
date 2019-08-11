@@ -2,8 +2,7 @@
 
 ## OVERVIEW
 
-Using the provided data (tickets.json and users.json and organization.json) write a simple
-command line application to search the data and return the results in a human readable format.
+Command line application to search the data and return the results in a human readable format using the provided data (tickets.json and users.json and organization.json)
 
 ### Search Engine
 This class is used to determine which indice to query for records or view searchable fields.
